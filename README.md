@@ -1,6 +1,6 @@
 # SwiftImageReadWrite
 
-A basic microframework of routines for doing basic importing/exporting of `CGImage` and `NSImage`/`UIImage` type images.
+A basic Swift microframework of routines for doing basic importing/exporting of `CGImage` and `NSImage`/`UIImage` type images.
 
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/dagronf/SwiftImage" />
@@ -16,11 +16,6 @@ A basic microframework of routines for doing basic importing/exporting of `CGIma
     <img src="https://img.shields.io/badge/tvOS-13+-orange" />
     <img src="https://img.shields.io/badge/watchOS-6+-brightgreen" />
     <img src="https://img.shields.io/badge/macCatalyst-1.0+-purple" />
-</p>
-<p align="center">
-    <img src="https://img.shields.io/badge/Swift-5.4-blueviolet" />
-    <img src="https://img.shields.io/badge/ObjectiveC-2.0-ff69b4" />
-    <img src="https://img.shields.io/badge/SwiftUI-2.0+-9cf" />
 </p>
 
 ## Why?
