@@ -29,3 +29,6 @@ public typealias PlatformImage = UIImage
 @usableFromInline internal let kUTTypeGIF = "com.compuserve.gif" as CFString
 @usableFromInline internal let kUTTypePDF = "com.adobe.pdf" as CFString
 #endif
+
+import AVFoundation
+internal let kUTTypeHEIC = AVFileType.heic as CFString

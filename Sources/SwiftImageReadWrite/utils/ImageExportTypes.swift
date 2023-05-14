@@ -31,6 +31,8 @@ public enum ImageExportType {
 	case tiff(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 	/// PDF export type
 	case pdf(size: CGSize)
+	/// HEIC export type
+	case heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 
 	/// The default file extension for the image type
 	public var fileExtension: String {
@@ -40,17 +42,19 @@ public enum ImageExportType {
 		case .jpg(scale: _, compression: _, excludeGPSData: _): return "jpg"
 		case .tiff(scale: _, compression: _, excludeGPSData: _): return "tiff"
 		case .pdf(size: _): return "pdf"
+		case .heic(scale: _, compression: _, excludeGPSData: _): return "heic"
 		}
 	}
 
 	/// The raw UTType for each type
-	internal var type: CFString {
+	internal var utType: CFString {
 		switch self {
 		case .png(scale: _): return kUTTypePNG
 		case .gif: return kUTTypeGIF
 		case .jpg(scale: _, compression: _, excludeGPSData: _): return kUTTypeJPEG
 		case .tiff(scale: _, compression: _, excludeGPSData: _): return kUTTypeTIFF
 		case .pdf(size: _): return kUTTypePDF
+		case .heic(scale: _, compression: _, excludeGPSData: _): return kUTTypeHEIC
 		}
 	}
 }

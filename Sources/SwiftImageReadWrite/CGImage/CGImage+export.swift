@@ -31,20 +31,20 @@ public extension CGImage {
 		switch type {
 		case .png(scale: let scale, excludeGPSData: let excludeGPSData):
 			return try self.dataRepresentation(
-				type: type.type,
+				universalTypeIdentifier: type.utType,
 				dpi: scale * 72.0,
 				excludeGPSData: excludeGPSData,
 				otherOptions: otherOptions
 			)
 		case .gif:
 			return try self.dataRepresentation(
-				type: type.type,
+				universalTypeIdentifier: type.utType,
 				dpi: 72.0,
 				otherOptions: otherOptions
 			)
 		case .jpg(scale: let scale, compression: let compression, excludeGPSData: let excludeGPSData):
 			return try self.dataRepresentation(
-				type: type.type,
+				universalTypeIdentifier: type.utType,
 				dpi: scale * 72.0,
 				compression: compression,
 				excludeGPSData: excludeGPSData,
@@ -52,7 +52,15 @@ public extension CGImage {
 			)
 		case .tiff(scale: let scale, compression: let compression, excludeGPSData: let excludeGPSData):
 			return try self.dataRepresentation(
-				type: type.type,
+				universalTypeIdentifier: type.utType,
+				dpi: scale * 72.0,
+				compression: compression,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
+		case .heic(scale: let scale, compression: let compression, excludeGPSData: let excludeGPSData):
+			return try self.dataRepresentation(
+				universalTypeIdentifier: type.utType,
 				dpi: scale * 72.0,
 				compression: compression,
 				excludeGPSData: excludeGPSData,
@@ -137,11 +145,55 @@ public extension CGImage {
 			try owner.imageData(for: .gif)
 		}
 
+		/// Create a heic representation of the image
+		/// - Parameters:
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		/// - Returns: image data
+		@inlinable public func heic(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+			try owner.imageData(for: .heic(scale: dpi / 72.0, compression: compression, excludeGPSData: excludeGPSData))
+		}
+
+		/// Create a heic representation of the image
+		/// - Parameters:
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		/// - Returns: image data
+		@inlinable public func heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+			try owner.imageData(for: .heic(scale: scale, compression: compression, excludeGPSData: excludeGPSData))
+		}
+
 		/// Generate a PDF representation of this image
 		/// - Parameter size: The output size in pixels
 		/// - Returns: PDF data
 		@inlinable public func pdf(size: CGSize) throws -> Data {
 			try owner.imageData(for: .pdf(size: size))
+		}
+
+		/// Create raw data representation of the image in a specified UTType format
+		/// - Parameters:
+		///   - universalTypeIdentifier: The UTI for the image type to export
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+		/// - Returns: image data
+		public func rawImageData(
+			universalTypeIdentifier: String,
+			scale: CGFloat = 1,
+			compression: CGFloat? = nil,
+			excludeGPSData: Bool = false,
+			otherOptions: [String: Any]? = nil
+		) throws -> Data {
+			try owner.dataRepresentation(
+				universalTypeIdentifier: universalTypeIdentifier as CFString,
+				dpi: scale * 72.0,
+				compression: compression,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
 		}
 	}
 
@@ -163,9 +215,17 @@ public extension CGImage {
 
 // MARK: - Data representation
 
-internal extension CGImage {
+extension CGImage {
+	/// Generate data for the image in the format defined by utType
+	/// - Parameters:
+	///   - utiType: The UTType for the image to generate
+	///   - dpi: The image's dpi
+	///   - compression: The compression level to apply (0...1)
+	///   - excludeGPSData: If true, strips any GPS information from the output
+	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+	/// - Returns: image data
 	func dataRepresentation(
-		type: CFString,
+		universalTypeIdentifier: CFString,
 		dpi: CGFloat,
 		compression: CGFloat? = nil,
 		excludeGPSData: Bool = false,
@@ -196,14 +256,20 @@ internal extension CGImage {
 
 		guard
 			let mutableData = CFDataCreateMutable(nil, 0),
-			let destination = CGImageDestinationCreateWithData(mutableData, type, 1, nil)
+			let destination = CGImageDestinationCreateWithData(mutableData, universalTypeIdentifier, 1, nil)
 		else {
-			throw ImageReadWriteError.cannotCreateDestination
+			throw ImageReadWriteError.cannotCreateImageOfType(universalTypeIdentifier as String)
 		}
 
 		CGImageDestinationAddImage(destination, self, options as CFDictionary)
 		CGImageDestinationFinalize(destination)
 
-		return mutableData as Data
+		let resultData = mutableData as Data
+		if resultData.count == 0 {
+			// On watchOS, the destination is created for HEIC but it doesn't write any data
+			// (results in a zero-length data). Throw if no data is generated
+			throw ImageReadWriteError.cannotCreateImageOfType(universalTypeIdentifier as String)
+		}
+		return resultData
 	}
 }

@@ -22,7 +22,7 @@ import Foundation
 public enum ImageReadWriteError: Error {
 	case unableToDecodeImage
 	case invalidDPI
-	case cannotCreateDestination
+	case cannotCreateImageOfType(String)
 	case cannotCreatePDFContext
 	case cannotCreateCGImage
 	case codableInvalidData

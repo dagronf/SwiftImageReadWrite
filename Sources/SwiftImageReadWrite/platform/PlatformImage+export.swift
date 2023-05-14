@@ -113,11 +113,58 @@ public extension PlatformImage {
 			try owner.imageData(for: .gif)
 		}
 
+		/// Create a heic representation of the image
+		/// - Parameters:
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		/// - Returns: image data
+		@inlinable public func heic(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+			try owner.imageData(for: .heic(scale: dpi / 72.0, compression: compression, excludeGPSData: excludeGPSData))
+		}
+
+		/// Create a heic representation of the image
+		/// - Parameters:
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		/// - Returns: image data
+		@inlinable public func heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+			try owner.imageData(for: .heic(scale: scale, compression: compression, excludeGPSData: excludeGPSData))
+		}
+
 		/// Generate a PDF representation of this image
 		/// - Parameter size: The output size in pixels
 		/// - Returns: PDF data
 		@inlinable public func pdf(size: CGSize) throws -> Data {
 			try owner.imageData(for: .pdf(size: size))
+		}
+
+		/// Create raw data representation of the image in a specified UTType format
+		/// - Parameters:
+		///   - universalTypeIdentifier: The UTI for the image type to export
+		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
+		///   - compression: The compression level to apply (clamped to 0 ... 1)
+		///   - excludeGPSData: Strip any gps data
+		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+		/// - Returns: image data
+		@inlinable public func rawImageData(
+			universalTypeIdentifier: String,
+			scale: CGFloat = 1,
+			compression: CGFloat? = nil,
+			excludeGPSData: Bool = false,
+			otherOptions: [String: Any]? = nil
+		) throws -> Data {
+			guard let image = owner.cgImage else {
+				throw ImageReadWriteError.cannotCreateCGImage
+			}
+			return try image.representation.rawImageData(
+				universalTypeIdentifier: universalTypeIdentifier,
+				scale: scale,
+				compression: compression,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
 		}
 	}
 

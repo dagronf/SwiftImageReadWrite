@@ -7,11 +7,44 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExample1() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-
 		let image = try CGImage.load(imageData: data)
 
 		let pdfData = try image.pdfRepresentation(size: CGSize(width: 600, height: 600))
 		try output.writeFile(titled: "wombles-e1.pdf", data: pdfData)
+	}
+
+	func testExampleHEIC() throws {
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+
+			let image = try CGImage.load(imageData: data)
+
+			let pdfData = try image.pdfRepresentation(size: CGSize(width: 600, height: 600))
+			try output.writeFile(titled: "sample-heic-image-e1.pdf", data: pdfData)
+
+			#if os(watchOS)
+			// WatchOS doesn't seem to be able to generate HEIC
+			XCTAssertThrowsError(try image.representation.heic())
+			#else
+			let heicData = try image.representation.heic()
+			try output.writeFile(titled: "sample-heic-image-e2.heic", data: heicData)
+			#endif
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+
+			#if os(watchOS)
+			// WatchOS doesn't seem to be able to generate HEIC
+			XCTAssertThrowsError(try image.representation.heic(scale: 2, compression: 0.5))
+			#else
+			let heicData2 = try image.representation.heic(scale: 2, compression: 0.5)
+			try output.writeFile(titled: "wombles2.heic", data: heicData2)
+			#endif
+		}
 	}
 
 	func testPlatformImage() throws {
