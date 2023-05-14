@@ -30,29 +30,20 @@ public struct CGImageCodable: Codable {
 }
 
 public extension CGImageCodable {
-	/// The types of error that the codable image can throw
-	enum ImageCodingError: Error {
-		case InvalidData
-		case UnableToConvertImageToPNG
-	}
-
 	init(from decoder: Decoder) throws {
 		let container = try decoder.singleValueContainer()
 		guard let imageData = try? container.decode(Data.self) else {
-			throw ImageCodingError.InvalidData
+			throw ImageReadWriteError.codableInvalidData
 		}
 		guard let image = PlatformImage(data: imageData)?.cgImage else {
-			throw ImageCodingError.InvalidData
+			throw ImageReadWriteError.codableInvalidImage
 		}
 		self.image = image
 	}
 
 	func encode(to encoder: Encoder) throws {
-		guard let pngData = self.image.imageData(for: .png()) else {
-			throw ImageCodingError.UnableToConvertImageToPNG
-		}
+		let pngData = try self.image.imageData(for: .png())
 		var container = encoder.singleValueContainer()
 		try container.encode(pngData)
 	}
 }
-

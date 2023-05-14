@@ -3,7 +3,7 @@
 A basic Swift microframework of routines for doing basic importing/exporting of `CGImage` and `NSImage`/`UIImage` type images.
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/tag/dagronf/SwiftImage" />
+    <img src="https://img.shields.io/github/v/tag/dagronf/SwiftImageReadWrite" />
     <img src="https://img.shields.io/badge/License-MIT-lightgrey" />
     <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
@@ -27,7 +27,11 @@ Apple's built in image types are incredibly capable but can be quite verbose to 
 different image file types. It's also somewhat tricky to get basic export correct, so this framework abstracts that
 away with a type-safe, format safe way.
 
-It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage.
+There are also differences between macOS and the rest of the Apple ecosystem when it comes to converting platform
+images and this library abstracts those differences away. The same API will work on macOS/iOS/watchOS and tvOS.
+
+It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage 
+(`CGImageCodable`, `PlatformImageCodable`) to allow easy embedding of images in your `Codable` objects. 
 
 ## Supported types
 
@@ -37,19 +41,36 @@ It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage.
 * GIF
 * PDF
 
+## `representation`
+
+All the encoding/conversion calls are wrapped inside `representation` on an image object. This was done to 
+avoid clashing with the platform image calls of similar names.
+
+For example :-
+
+```swift
+let image = UIImage(/* some image */)
+let pngData = try image.representation.png(scale: 2)
+```
+
+```swift
+let image = CGImage(/* some image */)
+let pngData = try image.representation.pdf(size: CGSize(width: 300, height: 300))
+```
+
 ## Basic examples
 
 ### CGImage
 
 ```swift
 // Load a CGImage from raw data
-let image = CGImage.load(imageData: data)
+let image = try CGImage.load(imageData: data)
 
 // Export the image as JPG data
-let jpegData = image.imageData(for: .jpg(scale: 3, compression: 0.65, excludeGPSData: true))
+let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
 
 // Export the image as PNG data
-let pngData = image.imageData(for: .png(scale: 2)
+let pngData = try image.representation.png(scale: 2)
 ```
 
 ### NSImage/UIImage
@@ -62,7 +83,7 @@ let cgImage = CGImage.load(imageData: data)
 let nsImage = cgImage.platformImage(scale: 2)
 
 // Generate a PDF representation of the pdf
-let pdf = nsImage.imageData(for: .pdf)
+let pdf = try nsImage.representation.pdf()
 ```
 
 ### SwiftUI

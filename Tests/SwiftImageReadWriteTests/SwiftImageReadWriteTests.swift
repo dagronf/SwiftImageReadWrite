@@ -1,26 +1,39 @@
 import XCTest
 @testable import SwiftImageReadWrite
 
-let output = TestOutputContainer()
+let output = TestOutputContainer(name: "SwiftImageReadWrite")
 
 final class SwiftImageReadWriteTests: XCTestCase {
 	func testExample1() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
 
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
+		let image = try CGImage.load(imageData: data)
 
-		let pdfData = image.pdfRepresentation(size: CGSize(width: 600, height: 600))!
+		let pdfData = try image.pdfRepresentation(size: CGSize(width: 600, height: 600))
 		try output.writeFile(titled: "wombles-e1.pdf", data: pdfData)
+	}
+
+	func testPlatformImage() throws {
+		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+		let data = try Data(contentsOf: url)
+		let image = try XCTUnwrap(PlatformImage(data: data))
+
+		let pngData = try image.representation.png(scale: 2)
+		let jpgData = try image.representation.jpeg(compression: 0.65)
+		let pdfData = try image.representation.pdf(size: CGSize(width: 200, height: 200))
+
 	}
 
 	func testExample2() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
 
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
+		let image = try CGImage.load(imageData: data)
 
-		let jpegData = try XCTUnwrap(image.imageData(for: .jpg(scale: 3, compression: 0.65, excludeGPSData: true)))
+		let jpg2 = try image.representation.jpeg()
+
+		let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true)
 		try output.writeFile(titled: "wombles-e2.jpg", data: jpegData)
 	}
 
@@ -29,7 +42,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
 
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
+		let image = try CGImage.load(imageData: data)
 		XCTAssertEqual(image.width, 512)
 		XCTAssertEqual(image.height, 512)
 	}
@@ -37,7 +50,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExportScale() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
+		let image = try CGImage.load(imageData: data)
 
 		let platformImage2 = image.platformImage(scale: 2)
 		assert(platformImage2 != nil)
@@ -49,8 +62,8 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExportGIF() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
-		let gif = try XCTUnwrap(image.imageData(for: .gif))
+		let image = try CGImage.load(imageData: data)
+		let gif = try image.imageData(for: .gif)
 
 		try output.writeFile(titled: "wombles-export-gif.gif", data: gif)
 	}
@@ -83,7 +96,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try XCTUnwrap(CGImage.load(imageData: data))
+		let image = try CGImage.load(imageData: data)
 
 		let s = MyStruct(name: "Fishy", image: CGImageCodable(image))
 		let d = try JSONEncoder().encode(s)

@@ -26,9 +26,9 @@ public enum ImageExportType {
 	/// GIF export type
 	case gif
 	/// JPEG export type
-	case jpg(scale: CGFloat = 1, compression: CGFloat, excludeGPSData: Bool = true)
+	case jpg(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 	/// TIFF export type
-	case tiff(scale: CGFloat = 1, compression: CGFloat, excludeGPSData: Bool = true)
+	case tiff(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 	/// PDF export type
 	case pdf(size: CGSize)
 

@@ -31,17 +31,23 @@ class TestOutputContainer {
 		return dateFormatter
 	}()
 
-	static let __tmpFolder: URL = {
+	private lazy var __tmpFolder: URL = {
 		let u = FileManager.default
 			.temporaryDirectory
-			.appendingPathComponent("qrcodeTests")
-			.appendingPathComponent(iso8601Formatter.string(from: Date()))
+			.appendingPathComponent(name)
+			.appendingPathComponent(Self.iso8601Formatter.string(from: Date()))
 		try! FileManager.default.createDirectory(at: u, withIntermediateDirectories: true)
 		Swift.print("Temp files at: \(u)")
 		return u
 	}()
 
 	func writeFile(titled: String, data: Data) throws {
-		try data.write(to: Self.__tmpFolder.appendingPathComponent(titled))
+		try data.write(to: __tmpFolder.appendingPathComponent(titled))
+	}
+
+	private let name: String
+
+	init(name: String) {
+		self.name = name
 	}
 }

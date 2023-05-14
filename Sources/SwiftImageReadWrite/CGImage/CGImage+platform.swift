@@ -23,7 +23,7 @@ import Foundation
 import AppKit
 public extension CGImage {
 	/// Return a platform image with a specific scale (eg. 2 == @2x)
-	func platformImage(scale: CGFloat = 1) -> PlatformImage? {
+	func platformImage(scale: CGFloat = 1) -> PlatformImage {
 		let sz = CGSize(width: self.width, height: self.height)
 		let scaled = CGSize(width: sz.width / scale, height: sz.height / scale)
 		return PlatformImage(cgImage: self, size: scaled)
@@ -34,7 +34,7 @@ import UIKit
 
 public extension CGImage {
 	/// Return a platform image with a specific scale (eg. 2 == @2x)
-	func platformImage(scale: CGFloat = 1) -> PlatformImage? {
+	func platformImage(scale: CGFloat = 1) -> PlatformImage {
 		UIImage(cgImage: self, scale: scale, orientation: .up)
 	}
 }
@@ -42,7 +42,7 @@ public extension CGImage {
 
 public extension CGImage {
 	/// Return a platform image with a specific DPI
-	func platformImage(dpi: CGFloat = 72.0) -> PlatformImage? {
+	func platformImage(dpi: CGFloat = 72.0) -> PlatformImage {
 		self.platformImage(scale: dpi / 72.0)
 	}
 }

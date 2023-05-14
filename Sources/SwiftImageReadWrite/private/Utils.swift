@@ -30,7 +30,7 @@ internal func UsingSinglePagePDFContext(
 	size: CGSize,
 	pdfResolution: CGFloat = 72.0,
 	_ drawBlock: (CGContext, CGRect) throws -> Void
-) rethrows -> Data? {
+) throws -> Data {
 	let pageWidth = size.width * (72.0 / pdfResolution)
 	let pageHeight = size.height * (72.0 / pdfResolution)
 	var mediaBox = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
@@ -40,14 +40,19 @@ internal func UsingSinglePagePDFContext(
 		let pdfConsumer = CGDataConsumer(data: data),
 		let pdfContext = CGContext(consumer: pdfConsumer, mediaBox: &mediaBox, nil)
 	else {
-		return nil
+		throw ImageReadWriteError.cannotCreatePDFContext
 	}
 
 	// Start a new page of the required size
 	pdfContext.beginPage(mediaBox: &mediaBox)
 
 	// Perform the context drawing
-	try drawBlock(pdfContext, mediaBox)
+	do {
+		try drawBlock(pdfContext, mediaBox)
+	}
+	catch {
+		throw error
+	}
 
 	// And end the page
 	pdfContext.endPDFPage()

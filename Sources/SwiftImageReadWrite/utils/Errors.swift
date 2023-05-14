@@ -18,14 +18,14 @@
 //
 
 import Foundation
-import CoreGraphics
 
-public extension CGImage {
-	/// Load a CGImage from raw image data
-	static func load(imageData: Data) throws -> CGImage {
-		guard let image = PlatformImage(data: imageData)?.cgImage else {
-			throw ImageReadWriteError.unableToDecodeImage
-		}
-		return image
-	}
+public enum ImageReadWriteError: Error {
+	case unableToDecodeImage
+	case invalidDPI
+	case cannotCreateDestination
+	case cannotCreatePDFContext
+	case cannotCreateCGImage
+	case codableInvalidData
+	case codableInvalidImage
+	case cannotConvertCGImageToPlatformImage
 }
