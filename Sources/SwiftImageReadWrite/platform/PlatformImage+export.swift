@@ -54,7 +54,7 @@ public extension PlatformImage {
 		///   - dpi: The image's dpi
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func png(dpi: CGFloat, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func png(dpi: CGFloat, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .png(scale: dpi / 72.0, excludeGPSData: excludeGPSData))
 		}
 
@@ -63,7 +63,7 @@ public extension PlatformImage {
 		///   - scale: The image's scale value
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func png(scale: CGFloat = 1, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func png(scale: CGFloat = 1, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .png(scale: scale, excludeGPSData: excludeGPSData))
 		}
 
@@ -73,7 +73,7 @@ public extension PlatformImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func jpeg(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func jpeg(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .jpg(scale: dpi / 72.0, compression: compression, excludeGPSData: excludeGPSData))
 		}
 
@@ -83,7 +83,7 @@ public extension PlatformImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func jpeg(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func jpeg(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .jpg(scale: scale, compression: compression, excludeGPSData: excludeGPSData))
 		}
 
@@ -93,7 +93,7 @@ public extension PlatformImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func tiff(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func tiff(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .tiff(scale: dpi / 72.0, compression: compression, excludeGPSData: excludeGPSData))
 		}
 
@@ -103,20 +103,20 @@ public extension PlatformImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
-		@inlinable func tiff(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
+		@inlinable public func tiff(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .tiff(scale: scale, compression: compression, excludeGPSData: excludeGPSData))
 		}
 
 		/// Create a gif representation of the image
 		/// - Returns: image data
-		@inlinable func gif() throws -> Data {
+		@inlinable public func gif() throws -> Data {
 			try owner.imageData(for: .gif)
 		}
 
 		/// Generate a PDF representation of this image
 		/// - Parameter size: The output size in pixels
 		/// - Returns: PDF data
-		@inlinable func pdf(size: CGSize) throws -> Data {
+		@inlinable public func pdf(size: CGSize) throws -> Data {
 			try owner.imageData(for: .pdf(size: size))
 		}
 	}
