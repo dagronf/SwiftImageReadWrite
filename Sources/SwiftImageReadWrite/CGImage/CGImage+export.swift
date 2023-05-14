@@ -23,18 +23,41 @@ import ImageIO
 
 public extension CGImage {
 	/// Return the image data in the required format
-	/// - Parameter type: The format type to export (with options)
+	/// - Parameters:
+	///   - type: The format type to export (with options)
+	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
 	/// - Returns: The formatted data, or nil on error
-	func imageData(for type: ImageExportType) -> Data? {
+	func imageData(for type: ImageExportType, otherOptions: [String: Any]? = nil) -> Data? {
 		switch type {
 		case .png(scale: let scale, excludeGPSData: let excludeGPSData):
-			return self.dataRepresentation(type: type.type, dpi: scale * 72.0, excludeGPSData: excludeGPSData)
+			return self.dataRepresentation(
+				type: type.type,
+				dpi: scale * 72.0,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
 		case .gif:
-			return self.dataRepresentation(type: type.type, dpi: 72.0)
+			return self.dataRepresentation(
+				type: type.type,
+				dpi: 72.0,
+				otherOptions: otherOptions
+			)
 		case .jpg(scale: let scale, compression: let compression, excludeGPSData: let excludeGPSData):
-			return self.dataRepresentation(type: type.type, dpi: scale * 72.0, compression: compression, excludeGPSData: excludeGPSData)
+			return self.dataRepresentation(
+				type: type.type,
+				dpi: scale * 72.0,
+				compression: compression,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
 		case .tiff(scale: let scale, compression: let compression, excludeGPSData: let excludeGPSData):
-			return self.dataRepresentation(type: type.type, dpi: scale * 72.0, compression: compression, excludeGPSData: excludeGPSData)
+			return self.dataRepresentation(
+				type: type.type,
+				dpi: scale * 72.0,
+				compression: compression,
+				excludeGPSData: excludeGPSData,
+				otherOptions: otherOptions
+			)
 		case .pdf(size: let size):
 			return self.pdfRepresentation(size: size)
 		}
@@ -57,7 +80,8 @@ internal extension CGImage {
 		type: CFString,
 		dpi: CGFloat,
 		compression: CGFloat? = nil,
-		excludeGPSData: Bool = false
+		excludeGPSData: Bool = false,
+		otherOptions: [String: Any]? = nil
 	) -> Data? {
 		var options: [CFString: Any] = [
 			kCGImagePropertyPixelWidth: self.width,
@@ -73,6 +97,9 @@ internal extension CGImage {
 		if excludeGPSData == true {
 			options[kCGImageMetadataShouldExcludeGPS] = true
 		}
+
+		// Add in the user's customizations
+		otherOptions?.forEach { options[$0.0 as CFString] = $0.1 }
 
 		guard
 			let mutableData = CFDataCreateMutable(nil, 0),
