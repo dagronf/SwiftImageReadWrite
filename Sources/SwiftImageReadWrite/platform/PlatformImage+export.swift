@@ -142,14 +142,14 @@ public extension PlatformImage {
 
 		/// Create raw data representation of the image in a specified UTType format
 		/// - Parameters:
-		///   - universalTypeIdentifier: The UTI for the image type to export
+		///   - uniformTypeIdentifier: The UTI for the image type to export
 		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
 		/// - Returns: image data
 		@inlinable public func rawImageData(
-			universalTypeIdentifier: String,
+			uniformTypeIdentifier: String,
 			scale: CGFloat = 1,
 			compression: CGFloat? = nil,
 			excludeGPSData: Bool = false,
@@ -159,7 +159,7 @@ public extension PlatformImage {
 				throw ImageReadWriteError.cannotCreateCGImage
 			}
 			return try image.representation.rawImageData(
-				universalTypeIdentifier: universalTypeIdentifier,
+				uniformTypeIdentifier: uniformTypeIdentifier,
 				scale: scale,
 				compression: compression,
 				excludeGPSData: excludeGPSData,
