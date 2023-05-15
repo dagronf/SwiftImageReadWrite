@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 /// Image export type
 public enum ImageExportType {
@@ -31,7 +32,7 @@ public enum ImageExportType {
 	case tiff(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 	/// PDF export type
 	case pdf(size: CGSize)
-	/// HEIC export type
+	/// HEIC export type. Not supported on macOS < 10.13 (throws an error)
 	case heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 
 	/// The default file extension for the image type

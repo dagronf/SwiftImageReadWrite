@@ -151,6 +151,8 @@ public extension CGImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
+		///
+		/// Not supported on macOS < 10.13 (throws an error)
 		@inlinable public func heic(dpi: CGFloat, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .heic(scale: dpi / 72.0, compression: compression, excludeGPSData: excludeGPSData))
 		}
@@ -161,6 +163,8 @@ public extension CGImage {
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
 		/// - Returns: image data
+		///
+		/// Not supported on macOS < 10.13 (throws an error)
 		@inlinable public func heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = false) throws -> Data {
 			try owner.imageData(for: .heic(scale: scale, compression: compression, excludeGPSData: excludeGPSData))
 		}
