@@ -17,25 +17,17 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if os(macOS)
 import Foundation
-import AppKit
+import CoreGraphics
 
-public extension NSImage {
-	/// A trival CGImage representation for an NSImage
-	///
-	/// Useful for synchronising the AppKit/UIKit apis
-	@inlinable @inline(__always) var cgImage: CGImage? {
-		if let image = self.cgImage(forProposedRect: nil, context: nil, hints: nil) {
-			return image
-		}
-		return self.ciImage?.cgImage()
+public extension CGImage {
+	/// Load a CGImage from an image asset
+	static func named(_ name: String) -> CGImage? {
+		PlatformImage(named: name)?.cgImage
 	}
 
-	/// Return a CIImage for an NSImage
-	@inlinable @inline(__always) var ciImage: CIImage? {
-		self.tiffRepresentation(using: .none, factor: 0).flatMap(CIImage.init)
+	/// The size of the CGImage
+	@inlinable @inline(__always) var size: CGSize {
+		CGSize(width: self.width, height: self.height)
 	}
 }
-
-#endif
