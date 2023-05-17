@@ -139,4 +139,101 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		XCTAssertEqual(recon.image.image.width, image.width)
 		XCTAssertEqual(recon.image.image.height, image.height)
 	}
+
+	func testSVG() throws {
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(titled: "wombles-export-gif-embedded-png.svg", data: try image.svgRepresentation(embeddedImageFormat: .png()))
+		}
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(titled: "sample-heic-image-embedded-jpg.svg", data: try image.svgRepresentation(embeddedImageFormat: .jpg()))
+		}
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(titled: "sample-heic-image-embedded-tiff.svg", data: try image.svgRepresentation(embeddedImageFormat: .tiff()))
+		}
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(titled: "sample-heic-image-embedded-gif.svg", data: try image.svgRepresentation(embeddedImageFormat: .gif))
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "wombles-image-scaled-40x40.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 40, height: 40), embeddedImageFormat: .jpg())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "wombles-image-scaled-100x50-fill.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "wombles-image-scaled-100x50-fit.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "wombles-image-scaled-100x50-scale.svg",
+				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .png())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "sample-heic-image-scaled-100x50-fill.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "sample-heic-image-scaled-100x50-fit.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
+			)
+		}
+
+		do {
+			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
+			let data = try Data(contentsOf: url)
+			let image = try CGImage.load(imageData: data)
+			try output.writeFile(
+				titled: "sample-heic-image-scaled-100x50-scale.svg",
+				data: try image.svgRepresentation(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .jpg())
+			)
+		}
+	}
 }

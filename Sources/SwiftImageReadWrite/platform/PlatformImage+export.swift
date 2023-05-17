@@ -140,6 +140,16 @@ public extension PlatformImage {
 			try owner.imageData(for: .pdf(size: size))
 		}
 
+		/// Generate a SVG representation of this image
+		/// - Parameters:
+		///   - size: The output size in pixels (default to the image size)
+		///   - fillStyle: The scaling to apply to the image within the size
+		///   - embeddingType: The svg embedded image type (eg. jpg, png etc)
+		/// - Returns: SVG data
+		@inlinable public func svg(size: CGSize? = nil, fillStyle: CGImage.SVGFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg()) throws -> Data {
+			try owner.imageData(for: .svg(size: size, fillStyle: fillStyle, embeddedImageFormat: embeddedImageFormat))
+		}
+
 		/// Create raw data representation of the image in a specified UTType format
 		/// - Parameters:
 		///   - uniformTypeIdentifier: The UTI for the image type to export

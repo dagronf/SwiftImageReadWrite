@@ -34,6 +34,8 @@ public enum ImageExportType {
 	case pdf(size: CGSize)
 	/// HEIC export type. Not supported on macOS < 10.13 (throws an error)
 	case heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
+	/// SVG export
+	indirect case svg(size: CGSize? = nil, fillStyle: CGImage.SVGFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg())
 
 	/// The default file extension for the image type
 	public var fileExtension: String {
@@ -44,6 +46,7 @@ public enum ImageExportType {
 		case .tiff(scale: _, compression: _, excludeGPSData: _): return "tiff"
 		case .pdf(size: _): return "pdf"
 		case .heic(scale: _, compression: _, excludeGPSData: _): return "heic"
+		case .svg(size: _, fillStyle: _, embeddedImageFormat: _): return "svg"
 		}
 	}
 
@@ -56,6 +59,19 @@ public enum ImageExportType {
 		case .tiff(scale: _, compression: _, excludeGPSData: _): return kUTTypeTIFF
 		case .pdf(size: _): return kUTTypePDF
 		case .heic(scale: _, compression: _, excludeGPSData: _): return kUTTypeHEIC
+		case .svg(size: _, fillStyle: _, embeddedImageFormat: _): return kUTTypeSVG
+		}
+	}
+
+	public var mimeType: String {
+		switch self {
+		case .png(scale: _): return "image/png"
+		case .gif: return "image/gif"
+		case .jpg(scale: _, compression: _, excludeGPSData: _): return "image/jpeg"
+		case .tiff(scale: _, compression: _, excludeGPSData: _): return "image/tiff"
+		case .pdf(size: _): return "application/pdf"
+		case .heic(scale: _, compression: _, excludeGPSData: _): return "image/heic"
+		case .svg(size: _, fillStyle: _, embeddedImageFormat: _): return "image/svg+xml"
 		}
 	}
 }

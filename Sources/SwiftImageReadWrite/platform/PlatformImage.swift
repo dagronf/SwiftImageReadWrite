@@ -32,3 +32,4 @@ public typealias PlatformImage = UIImage
 
 // HEIC definition.
 @usableFromInline internal let kUTTypeHEIC = "public.heic" as CFString
+@usableFromInline internal let kUTTypeSVG = "public.svg-image" as CFString

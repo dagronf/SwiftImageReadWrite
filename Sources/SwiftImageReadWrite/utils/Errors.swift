@@ -28,4 +28,6 @@ public enum ImageReadWriteError: Error {
 	case codableInvalidData
 	case codableInvalidImage
 	case cannotConvertCGImageToPlatformImage
+	case unsupportedEmbeddedImageType(String)
+	case internalError
 }
