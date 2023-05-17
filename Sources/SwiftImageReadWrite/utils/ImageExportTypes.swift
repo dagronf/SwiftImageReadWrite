@@ -35,7 +35,7 @@ public enum ImageExportType {
 	/// HEIC export type. Not supported on macOS < 10.13 (throws an error)
 	case heic(scale: CGFloat = 1, compression: CGFloat? = nil, excludeGPSData: Bool = true)
 	/// SVG export
-	indirect case svg(size: CGSize? = nil, fillStyle: CGImage.SVGFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg())
+	indirect case svg(size: CGSize? = nil, fillStyle: SVGImageFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg())
 
 	/// The default file extension for the image type
 	public var fileExtension: String {

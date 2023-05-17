@@ -146,7 +146,7 @@ public extension PlatformImage {
 		///   - fillStyle: The scaling to apply to the image within the size
 		///   - embeddingType: The svg embedded image type (eg. jpg, png etc)
 		/// - Returns: SVG data
-		@inlinable public func svg(size: CGSize? = nil, fillStyle: CGImage.SVGFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg()) throws -> Data {
+		@inlinable public func svg(size: CGSize? = nil, fillStyle: SVGImageFillStyle = .aspectFit, embeddedImageFormat: ImageExportType = .jpg()) throws -> Data {
 			try owner.imageData(for: .svg(size: size, fillStyle: fillStyle, embeddedImageFormat: embeddedImageFormat))
 		}
 
