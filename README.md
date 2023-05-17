@@ -41,6 +41,7 @@ It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage
 * GIF
 * HEIC
 * PDF
+* SVG 
 
 ## `representation`
 
