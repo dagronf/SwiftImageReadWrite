@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 import CoreGraphics
 
@@ -75,3 +77,5 @@ public enum ImageExportType {
 		}
 	}
 }
+
+#endif

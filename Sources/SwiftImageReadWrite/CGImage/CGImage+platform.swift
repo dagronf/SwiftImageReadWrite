@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 
 #if os(macOS)
@@ -46,3 +48,5 @@ public extension CGImage {
 		self.platformImage(scale: dpi / 72.0)
 	}
 }
+
+#endif

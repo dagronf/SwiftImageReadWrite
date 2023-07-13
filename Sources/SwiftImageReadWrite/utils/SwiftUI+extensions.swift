@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 
 #if canImport(SwiftUI)
@@ -45,5 +47,7 @@ extension CGImage {
 		SwiftUI.Image(self, scale: scale, label: label)
 	}
 }
+
+#endif
 
 #endif

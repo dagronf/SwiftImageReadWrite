@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 #if !os(watchOS)
 
 import Foundation
@@ -54,6 +56,8 @@ public extension CIImage {
 		return updateImage
 	}
 }
+#endif
+
 #endif
 
 #endif

@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 import CoreGraphics
 
@@ -109,3 +111,5 @@ private extension CGImage {
 		_svgFloatFormatter.string(from: NSNumber(floatLiteral: Double(val)))!
 	}
 }
+
+#endif

@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 
 public enum ImageReadWriteError: Error {
@@ -31,3 +33,5 @@ public enum ImageReadWriteError: Error {
 	case unsupportedEmbeddedImageType(String)
 	case internalError
 }
+
+#endif

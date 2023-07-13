@@ -19,6 +19,8 @@
 
 // Extensions for the platform image types (NSImage, UIImage)
 
+#if canImport(CoreGraphics)
+
 import Foundation
 import CoreGraphics
 
@@ -181,3 +183,5 @@ public extension PlatformImage {
 	/// Returns a representation object which can export image types
 	var representation: ImageRepresentation { ImageRepresentation(self) }
 }
+
+#endif

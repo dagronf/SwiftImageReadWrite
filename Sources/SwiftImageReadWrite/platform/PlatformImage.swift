@@ -17,6 +17,8 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 #if os(macOS)
 import AppKit
 public typealias PlatformImage = NSImage
@@ -33,3 +35,5 @@ public typealias PlatformImage = UIImage
 // HEIC definition.
 @usableFromInline internal let kUTTypeHEIC = "public.heic" as CFString
 @usableFromInline internal let kUTTypeSVG = "public.svg-image" as CFString
+
+#endif
