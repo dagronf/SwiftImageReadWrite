@@ -36,7 +36,6 @@ extension PlatformImage {
 }
 
 extension CGImage {
-
 	@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
 	/// Return a SwiftUI Image representation of this CGImage
 	/// - Parameters:
@@ -45,6 +44,18 @@ extension CGImage {
 	/// - Returns: A SwiftUI image
 	func imageUI(scale: CGFloat = 1.0, label: Text) -> SwiftUI.Image {
 		SwiftUI.Image(self, scale: scale, label: label)
+	}
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+public extension CGImage.ImageRepresentation {
+	/// Return a SwiftUI Image representation of this CGImage
+	/// - Parameter
+	///   - scale: The image scale
+	///   - label: The label
+	/// - Returns: An image
+	func swiftUI(scale: CGFloat = 1.0, label: Text) -> SwiftUI.Image {
+		owner.imageUI(scale: scale, label: label)
 	}
 }
 

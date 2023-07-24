@@ -97,7 +97,7 @@ let pdf = try cgImage.representation.pdf()
 let cgImage = CGImage.load(imageData: data)
 
 // Create a SwiftUI image with this image
-let swiftUIImage = cgImage.imageUI(scale: 2, label: Text("My Image"))
+let swiftUIImage = cgImage.representation.swiftUI(scale: 2, label: Text("My Image"))
 ```
 
 ## Limitations
