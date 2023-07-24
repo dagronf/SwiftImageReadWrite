@@ -31,7 +31,9 @@ There are also differences between macOS and the rest of the Apple ecosystem whe
 images and this library abstracts those differences away. The same API will work on macOS/iOS/watchOS and tvOS.
 
 It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage 
-(`CGImageCodable`, `PlatformImageCodable`) to allow easy embedding of images in your `Codable` objects. 
+(`CGImageCodable`, `PlatformImageCodable`) to allow easy embedding of images in your `Codable` objects.
+
+[Online documentation](https://swiftpackageindex.com/dagronf/SwiftImageReadWrite/main/documentation/swiftimagereadwrite)
 
 ## Supported types
 
