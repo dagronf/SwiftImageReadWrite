@@ -32,7 +32,7 @@ public enum SVGImageFillStyle {
 	case scale
 }
 
-public extension CGImage {
+internal extension CGImage {
 	/// Generate an SVG representation for this image
 	/// - Parameter embeddingType: The image type to embed
 	/// - Returns: The SVG data

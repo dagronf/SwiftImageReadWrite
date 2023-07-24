@@ -190,6 +190,20 @@ public extension CGImage {
 			try owner.imageData(for: .svg(size: size, fillStyle: fillStyle, embeddedImageFormat: embeddedImageFormat))
 		}
 
+		/// Return a platform image (NSImage/UIImage) with a specific DPI
+		/// - Parameter dpi: The DPI for the resulting image
+		/// - Returns: An image
+		@inlinable public func image(dpi: CGFloat) -> PlatformImage {
+			owner.platformImage(dpi: dpi)
+		}
+
+		/// Return a platform image (NSImage/UIImage) with a specific scale (eg. 2 == @2x)
+		/// - Parameter scale: The image scale
+		/// - Returns: An image
+		@inlinable public func image(scale: CGFloat = 1) -> PlatformImage {
+			owner.platformImage(scale: scale)
+		}
+
 		/// Create raw data representation of the image in a specified UTType format
 		/// - Parameters:
 		///   - uniformTypeIdentifier: The UTI for the image type to export
@@ -220,11 +234,11 @@ public extension CGImage {
 
 // MARK: - PDF representation
 
-public extension CGImage {
+extension CGImage {
 	/// Generate a PDF representation of this image
 	/// - Parameter size: The output size in pixels, or nil to set the size to the image size
 	/// - Returns: PDF data
-	func pdfRepresentation(size: CGSize? = nil) throws -> Data {
+	internal func pdfRepresentation(size: CGSize? = nil) throws -> Data {
 		let size = size ?? self.size
 		return try UsingSinglePagePDFContext(size: size) { context, rect in
 			context.draw(self, in: CGRect(origin: .zero, size: size))

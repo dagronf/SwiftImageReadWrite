@@ -83,11 +83,11 @@ let pngData = try image.representation.png(scale: 2)
 // Load a CGImage from raw data
 let cgImage = CGImage.load(imageData: data)
 
-// Convert to an NSImage (or UIImage)
+// Convert to an NSImage or UIImage
 let nsImage = cgImage.platformImage(scale: 2)
 
 // Generate a PDF representation of the pdf
-let pdf = try nsImage.representation.pdf()
+let pdf = try cgImage.representation.pdf()
 ```
 
 ### SwiftUI
