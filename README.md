@@ -45,7 +45,21 @@ It also provides `Codable` wrapper implementations for CGImage/NSImage/UIImage
 * PDF
 * SVG 
 
-## `representation`
+## Loading a CGImage
+
+Two static methods have been added to `CGImage`
+
+```swift
+// Load a CGImage from raw data
+let image = try CGImage.load(data: <someData>)
+```
+
+```swift
+// Load a CGImage from a local file on disk
+let image = try CGImage.load(fileURL: <someURL>)
+```
+
+## Generating different image representations
 
 All the encoding/conversion calls are wrapped inside `representation` on an image object. This was done to 
 avoid clashing with the platform image calls of similar names.
@@ -53,13 +67,16 @@ avoid clashing with the platform image calls of similar names.
 For example :-
 
 ```swift
-let image = UIImage(/* some image */)
-let pngData = try image.representation.png(scale: 2)
-```
+let image = CGImage/UIImage/NSImage
 
-```swift
-let image = CGImage(/* some image */)
-let pngData = try image.representation.pdf(size: CGSize(width: 300, height: 300))
+// Generate a PNG representation
+let pngData = try image.representation.png(scale: 2)
+
+// Generate a JPG representation at 3x
+let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
+
+// Generate a PDF representation
+let pdfData = try image.representation.pdf(size: CGSize(width: 300, height: 300))
 ```
 
 ## Basic examples
@@ -68,23 +85,35 @@ let pngData = try image.representation.pdf(size: CGSize(width: 300, height: 300)
 
 ```swift
 // Load a CGImage from raw data
-let image = try CGImage.load(imageData: data)
+let cgImage = try CGImage.load(data: data)
 
 // Export the image as JPG data
-let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
+let jpegData = try cgImage.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
 
 // Export the image as PNG data
-let pngData = try image.representation.png(scale: 2)
+let pngData = try cgImage.representation.png(scale: 2)
+
+// Generate an NSImage
+let nsImage = cgImage.nsImage(scale: 2)
+
+// Generate an UIImage
+let nsImage = cgImage.uiImage()
+
 ```
 
 ### NSImage/UIImage
 
+Generating an `NSImage` or `UIImage` representation for a `CGImage`
+
 ```swift
 // Load a CGImage from raw data
-let cgImage = CGImage.load(imageData: data)
+let cgImage = CGImage.load(data: data)
 
-// Convert to an NSImage or UIImage
-let nsImage = cgImage.platformImage(scale: 2)
+// Convert to an NSImage
+let nsImage = cgImage.nsImage(scale: 2)
+
+// Convert to a UIImage
+let uiImage = cgImage.uiImage(scale: 3)
 
 // Generate a PDF representation of the pdf
 let pdf = try cgImage.representation.pdf()
@@ -94,7 +123,7 @@ let pdf = try cgImage.representation.pdf()
 
 ```swift
 // Load a CGImage from raw data
-let cgImage = CGImage.load(imageData: data)
+let cgImage = CGImage.load(data: data)
 
 // Create a SwiftUI image with this image
 let swiftUIImage = cgImage.representation.swiftUI(scale: 2, label: Text("My Image"))

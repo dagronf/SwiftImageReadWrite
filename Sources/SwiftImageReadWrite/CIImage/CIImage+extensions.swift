@@ -17,17 +17,15 @@
 //  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(CoreGraphics)
+#if canImport(CoreImage)
 
-#if !os(watchOS)
-
-import Foundation
 import CoreGraphics
 import CoreImage
+import Foundation
 
 public extension CIImage {
 	/// Convert this image to a CGImage
-	@inlinable func cgImage(context: CIContext? = nil) -> CGImage? {
+	@inlinable func asCGImage(context: CIContext? = nil) -> CGImage? {
 		let ctx = context ?? CIContext(options: nil)
 		return ctx.createCGImage(self, from: self.extent)
 	}
@@ -36,12 +34,11 @@ public extension CIImage {
 #if os(macOS)
 import AppKit
 public extension CIImage {
-	/// Create an NSImage version of this image
+	/// Create an NSImage representation of this image
 	/// - Parameters:
 	///   - pixelSize: The number of pixels in the result image. For a retina image (for example), pixelSize is double repSize
 	///   - repSize: The number of points in the result image
 	/// - Returns: Converted image, or nil
-	@available(macOS 10, *)
 	func asNSImage(pixelsSize: CGSize? = nil, repSize: CGSize? = nil) -> NSImage? {
 		let rep = NSCIImageRep(ciImage: self)
 		if let ps = pixelsSize {
@@ -55,9 +52,20 @@ public extension CIImage {
 		updateImage.addRepresentation(rep)
 		return updateImage
 	}
+
+	/// Create a UIImage representation of this image
+	@inlinable func asPlatformImage() -> PlatformImage? { self.asNSImage() }
 }
-#endif
+
+#else
+
+import UIKit
+public extension CIImage {
+	/// Create a UIImage representation of this image
+	@inlinable func asUIImage() -> UIImage? { UIImage(ciImage: self) }
+	/// Create a UIImage representation of this image
+	@inlinable func asPlatformImage() -> PlatformImage? { self.asUIImage() }
+}
 
 #endif
-
 #endif

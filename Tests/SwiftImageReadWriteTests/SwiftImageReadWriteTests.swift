@@ -7,7 +7,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExample1() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 
 		let pdfData = try image.representation.pdf(size: CGSize(width: 600, height: 600))
 		try output.writeFile(titled: "wombles-e1.pdf", data: pdfData)
@@ -18,7 +18,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
 
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 
 			let pdfData = try image.representation.pdf(size: CGSize(width: 600, height: 600))
 			try output.writeFile(titled: "sample-heic-image-e1.pdf", data: pdfData)
@@ -35,7 +35,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 
 			#if os(watchOS)
 			// WatchOS doesn't seem to be able to generate HEIC
@@ -62,7 +62,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
 
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 
 		let jpg2 = try image.representation.jpeg()
 
@@ -75,7 +75,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
 
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 		XCTAssertEqual(image.width, 512)
 		XCTAssertEqual(image.height, 512)
 	}
@@ -83,7 +83,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExportScale() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 
 		let platformImage2 = image.platformImage(scale: 2)
 		assert(platformImage2 != nil)
@@ -95,7 +95,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 	func testExportGIF() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 		let gif = try image.imageData(for: .gif)
 
 		try output.writeFile(titled: "wombles-export-gif.gif", data: gif)
@@ -129,7 +129,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 		let data = try Data(contentsOf: url)
-		let image = try CGImage.load(imageData: data)
+		let image = try CGImage.load(data: data)
 
 		let s = MyStruct(name: "Fishy", image: CGImageCodable(image))
 		let d = try JSONEncoder().encode(s)
@@ -144,32 +144,32 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "wombles-export-gif-embedded-png.svg", data: try image.representation.svg(embeddedImageFormat: .png()))
 		}
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-jpg.svg", data: try image.representation.svg(embeddedImageFormat: .jpg()))
 		}
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-tiff.svg", data: try image.representation.svg(embeddedImageFormat: .tiff()))
 		}
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-gif.svg", data: try image.representation.svg(embeddedImageFormat: .gif))
 		}
 
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "wombles-image-scaled-40x40.svg",
 				data: try image.representation.svg(size: CGSize(width: 40, height: 40), embeddedImageFormat: .jpg())
@@ -179,7 +179,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-fill.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
@@ -189,7 +189,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-fit.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
@@ -199,7 +199,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-scale.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .png())
@@ -209,7 +209,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-fill.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
@@ -222,7 +222,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-fit.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
@@ -232,7 +232,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		do {
 			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
 			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(imageData: data)
+			let image = try CGImage.load(data: data)
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-scale.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .jpg())

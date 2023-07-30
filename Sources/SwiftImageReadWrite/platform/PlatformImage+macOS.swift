@@ -18,18 +18,17 @@
 //
 
 #if os(macOS)
+
 import Foundation
 import AppKit
 
 public extension NSImage {
 	/// A trival CGImage representation for an NSImage
-	///
-	/// Useful for synchronising the AppKit/UIKit apis
 	@inlinable @inline(__always) var cgImage: CGImage? {
 		if let image = self.cgImage(forProposedRect: nil, context: nil, hints: nil) {
 			return image
 		}
-		return self.ciImage?.cgImage()
+		return self.ciImage?.asCGImage()
 	}
 
 	/// Return a CIImage for an NSImage
