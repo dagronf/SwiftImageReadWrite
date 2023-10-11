@@ -59,6 +59,11 @@ let image = try CGImage.load(data: <someData>)
 let image = try CGImage.load(fileURL: <someURL>)
 ```
 
+```swift
+// Load a CGImage from a named image asset
+let image = try CGImage.named("my_image_name")
+```
+
 ## Generating different image representations
 
 All the encoding/conversion calls are wrapped inside `representation` on an image object. This was done to 

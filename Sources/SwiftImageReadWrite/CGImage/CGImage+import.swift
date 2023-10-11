@@ -39,6 +39,16 @@ public extension CGImage {
 		}
 		return image
 	}
+
+	/// Creates an image object from the specified named asset.
+	/// - Parameter name: The image asset name
+	/// - Returns: The image
+	static func named(_ name: String) throws -> CGImage {
+		guard let image = PlatformImage(named: name)?.cgImage else {
+			throw ImageReadWriteError.cannotLoadImageNamed(name)
+		}
+		return image
+	}
 }
 
 #endif
