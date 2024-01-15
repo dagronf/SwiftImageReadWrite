@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name                       = 'SwiftImageReadWrite'
-s.version                    = '1.5.0'
+s.version                    = '1.6.1'
 s.summary                    = 'A basic microframework of routines for doing basic importing/exporting of `CGImage` and `NSImage`/`UIImage` type images.'
 s.homepage                   = 'https://github.com/dagronf/SwiftImageReadWrite'
 s.license                    = { :type => 'MIT', :file => 'LICENSE' }
@@ -11,7 +11,7 @@ s.source                     = { :git => 'https://github.com/dagronf/SwiftImageR
 s.module_name                = 'SwiftImageReadWrite'
 
 s.osx.deployment_target      = '10.11'
-s.ios.deployment_target      = '13.0'
+s.ios.deployment_target      = '11.0'
 s.tvos.deployment_target     = '13.0'
 s.watchos.deployment_target  = '6.0'
 

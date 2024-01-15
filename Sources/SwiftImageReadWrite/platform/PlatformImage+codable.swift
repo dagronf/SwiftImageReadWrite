@@ -28,7 +28,7 @@ import UIKit
 #endif
 
 /// A codable wrapper for NSImage/UIImage
-@available(macOS 10.13, iOS 13, tvOS 13, watchOS 6, *)
+@available(macOS 10.13, iOS 11, tvOS 13, watchOS 6, *)
 public struct PlatformImageCodable: Codable {
 	/// The image to encode
 	public var image: PlatformImage
@@ -39,7 +39,7 @@ public struct PlatformImageCodable: Codable {
 	}
 }
 
-@available(macOS 10.13, iOS 13, tvOS 13, watchOS 6, *)
+@available(macOS 10.13, iOS 11, tvOS 13, watchOS 6, *)
 public extension PlatformImageCodable {
 	/// The types of error that the codable image can throw
 	enum ImageCodingError: Error {

@@ -5,7 +5,7 @@ let package = Package(
 	name: "SwiftImageReadWrite",
 	platforms: [
 		.macOS(.v10_11),
-		.iOS(.v13),
+		.iOS(.v11),
 		.tvOS(.v13),
 		.watchOS(.v4)
 	],
