@@ -1,4 +1,5 @@
 // swift-tools-version: 5.4
+
 import PackageDescription
 
 let package = Package(
@@ -19,7 +20,10 @@ let package = Package(
 	targets: [
 		.target(
 			name: "SwiftImageReadWrite",
-			dependencies: []),
+			resources: [
+				.copy("PrivacyInfo.xcprivacy"),
+			]
+		),
 		.testTarget(
 			name: "SwiftImageReadWriteTests",
 			dependencies: ["SwiftImageReadWrite"],
