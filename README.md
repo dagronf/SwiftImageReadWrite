@@ -134,6 +134,16 @@ let cgImage = CGImage.load(data: data)
 let swiftUIImage = cgImage.representation.swiftUI(scale: 2, label: Text("My Image"))
 ```
 
+## Converting colorspaces
+
+This library provides basic colorspace conversion to CMYK, Gray and sRGB.  
+
+```swift
+let cmykImage = try image.convertColorspace.genericCMYK()
+let grayImage = try image.convertColorspace.deviceGray()
+let sRGBImage = try image.convertColorspace.sRGB()
+```
+
 ## Limitations
 
 * `NSImage` supports multiple image representations within a single image. These routines only deal with a single
