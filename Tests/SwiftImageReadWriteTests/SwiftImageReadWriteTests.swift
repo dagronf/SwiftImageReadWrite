@@ -3,6 +3,11 @@ import XCTest
 
 let output = TestOutputContainer(name: "SwiftImageReadWrite")
 
+func loadImage(forResource name: String, withExtension extn: String) throws -> CGImage {
+	let url = Bundle.module.url(forResource: name, withExtension: extn)!
+	return try CGImage.load(fileURL: url)
+}
+
 final class SwiftImageReadWriteTests: XCTestCase {
 	func testExample1() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
@@ -53,9 +58,13 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let image = try XCTUnwrap(PlatformImage(data: data))
 
 		let pngData = try image.representation.png(scale: 2)
-		let jpgData = try image.representation.jpeg(compression: 0.65)
-		let pdfData = try image.representation.pdf(size: CGSize(width: 200, height: 200))
+		try output.writeFile(titled: "platform-image-scale-2.png", data: pngData)
 
+		let jpgData = try image.representation.jpeg(compression: 0.65)
+		try output.writeFile(titled: "platform-image-compression-0.65.jpg", data: jpgData)
+
+		let pdfData = try image.representation.pdf(size: CGSize(width: 200, height: 200))
+		try output.writeFile(titled: "platform-image-200x200.pdf", data: pdfData)
 	}
 
 	func testExample2() throws {
@@ -65,6 +74,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let image = try CGImage.load(data: data)
 
 		let jpg2 = try image.representation.jpeg()
+		try output.writeFile(titled: "wombles-e2-single-res.jpg", data: jpg2)
 
 		let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true)
 		try output.writeFile(titled: "wombles-e2.jpg", data: jpegData)
@@ -85,11 +95,13 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		let data = try Data(contentsOf: url)
 		let image = try CGImage.load(data: data)
 
-		let platformImage2 = image.platformImage(scale: 2)
-		assert(platformImage2 != nil)
+		let platformImage2 = try XCTUnwrap(image.platformImage(scale: 2)
+			.representation.jpeg(scale: 2, compression: 0.65))
+		try output.writeFile(titled: "export-scale-2.jpg", data: platformImage2)
 
-		let platformImage3 = image.platformImage(dpi: 214.0)
-		assert(platformImage3 != nil)
+		let platformImage3 = try XCTUnwrap(image.platformImage(dpi: 214.0)
+			.representation.jpeg(dpi: 214.0, compression: 0.65))
+		try output.writeFile(titled: "export-scale-dpi-214.jpg", data: platformImage3)
 	}
 
 	func testExportGIF() throws {
@@ -237,6 +249,39 @@ final class SwiftImageReadWriteTests: XCTestCase {
 				titled: "sample-heic-image-scaled-100x50-scale.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .jpg())
 			)
+		}
+	}
+
+	func testBasicColorspaceConvert() throws {
+		do {
+			let image = try loadImage(forResource: "wombles", withExtension: "jpeg")
+			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-image-converted-to-cmyk.jpg", data: cmyk)
+			let gray = try image.convertColorspace.gray().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-image-converted-to-gray.jpg", data: gray)
+			let sRGB = try image.convertColorspace.sRGB().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-image-converted-to-sRGB.jpg", data: sRGB)
+		}
+
+		do {
+			let image = try loadImage(forResource: "rainbow", withExtension: "png")
+			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
+			let rCMYK = try CGImage.load(data: cmyk)
+			XCTAssertEqual(CGColorSpace(name: CGColorSpace.genericCMYK), rCMYK.colorSpace)
+
+			try output.writeFile(titled: "colorspace-convert-rainbow-converted-to-cmyk.jpg", data: cmyk)
+			let gray = try image.convertColorspace.gray().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-rainbow-converted-to-gray.jpg", data: gray)
+			let rGray = try CGImage.load(data: gray)
+			XCTAssertEqual(CGColorSpace(name: CGColorSpace.genericGrayGamma2_2), rGray.colorSpace)
+		}
+
+		do {
+			let image = try loadImage(forResource: "sample-heic-image", withExtension: "heic")
+			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-heic-converted-to-cmyk.jpg", data: cmyk)
+			let gray = try image.convertColorspace.gray().representation.jpeg()
+			try output.writeFile(titled: "colorspace-convert-heic-converted-to-gray.jpg", data: gray)
 		}
 	}
 }

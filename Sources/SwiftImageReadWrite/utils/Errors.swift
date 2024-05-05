@@ -32,6 +32,7 @@ public enum ImageReadWriteError: Error {
 	case cannotConvertCGImageToPlatformImage
 	case unsupportedEmbeddedImageType(String)
 	case internalError
+	case cannotConvertColorspace
 	case cannotLoadImageNamed(String)
 }
 
