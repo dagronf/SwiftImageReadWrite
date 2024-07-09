@@ -149,34 +149,28 @@ final class SwiftImageReadWriteTests: XCTestCase {
 
 	func testSVG() throws {
 		do {
-			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
-			let data = try Data(contentsOf: url)
+			let data = try resourceData(forResource: "wombles", withExtension: "jpeg")
 			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "wombles-export-gif-embedded-png.svg", data: try image.representation.svg(embeddedImageFormat: .png()))
 		}
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
+			let data = try resourceData(forResource: "sample-heic-image", withExtension: "heic")
 			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-jpg.svg", data: try image.representation.svg(embeddedImageFormat: .jpg()))
 		}
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
+			let data = try resourceData(forResource: "sample-heic-image", withExtension: "heic")
 			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-tiff.svg", data: try image.representation.svg(embeddedImageFormat: .tiff()))
 		}
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
+			let data = try resourceData(forResource: "sample-heic-image", withExtension: "heic")
 			let image = try CGImage.load(data: data)
 			try output.writeFile(titled: "sample-heic-image-embedded-gif.svg", data: try image.representation.svg(embeddedImageFormat: .gif))
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "wombles", withExtension: "jpeg")
 			try output.writeFile(
 				titled: "wombles-image-scaled-40x40.svg",
 				data: try image.representation.svg(size: CGSize(width: 40, height: 40), embeddedImageFormat: .jpg())
@@ -184,9 +178,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "wombles", withExtension: "jpeg")
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-fill.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
@@ -194,9 +186,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "wombles", withExtension: "jpeg")
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-fit.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
@@ -204,9 +194,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "wombles", withExtension: "jpeg")
 			try output.writeFile(
 				titled: "wombles-image-scaled-100x50-scale.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .png())
@@ -214,9 +202,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "sample-heic-image", withExtension: "heic")
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-fill.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFill, embeddedImageFormat: .jpg())
@@ -227,9 +213,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "sample-heic-image", withExtension: "heic")
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-fit.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .aspectFit, embeddedImageFormat: .jpg())
@@ -237,9 +221,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let url = Bundle.module.url(forResource: "sample-heic-image", withExtension: "heic")!
-			let data = try Data(contentsOf: url)
-			let image = try CGImage.load(data: data)
+			let image = try resourceCGImage(forResource: "sample-heic-image", withExtension: "heic")
 			try output.writeFile(
 				titled: "sample-heic-image-scaled-100x50-scale.svg",
 				data: try image.representation.svg(size: CGSize(width: 100, height: 50), fillStyle: .scale, embeddedImageFormat: .jpg())
