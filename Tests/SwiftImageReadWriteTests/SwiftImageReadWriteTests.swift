@@ -3,11 +3,6 @@ import XCTest
 
 let output = TestOutputContainer(name: "SwiftImageReadWrite")
 
-func loadImage(forResource name: String, withExtension extn: String) throws -> CGImage {
-	let url = Bundle.module.url(forResource: name, withExtension: extn)!
-	return try CGImage.load(fileURL: url)
-}
-
 final class SwiftImageReadWriteTests: XCTestCase {
 	func testExample1() throws {
 		let url = Bundle.module.url(forResource: "wombles", withExtension: "jpeg")!
@@ -254,7 +249,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 
 	func testBasicColorspaceConvert() throws {
 		do {
-			let image = try loadImage(forResource: "wombles", withExtension: "jpeg")
+			let image = try resourceCGImage(forResource: "wombles", withExtension: "jpeg")
 			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
 			try output.writeFile(titled: "colorspace-convert-image-converted-to-cmyk.jpg", data: cmyk)
 			let gray = try image.convertColorspace.gray().representation.jpeg()
@@ -264,7 +259,7 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let image = try loadImage(forResource: "rainbow", withExtension: "png")
+			let image = try resourceCGImage(forResource: "rainbow", withExtension: "png")
 			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
 			let rCMYK = try CGImage.load(data: cmyk)
 			XCTAssertEqual(CGColorSpace(name: CGColorSpace.genericCMYK), rCMYK.colorSpace)
@@ -277,11 +272,19 @@ final class SwiftImageReadWriteTests: XCTestCase {
 		}
 
 		do {
-			let image = try loadImage(forResource: "sample-heic-image", withExtension: "heic")
+			let image = try resourceCGImage(forResource: "sample-heic-image", withExtension: "heic")
 			let cmyk = try image.convertColorspace.genericCMYK().representation.jpeg()
 			try output.writeFile(titled: "colorspace-convert-heic-converted-to-cmyk.jpg", data: cmyk)
 			let gray = try image.convertColorspace.gray().representation.jpeg()
 			try output.writeFile(titled: "colorspace-convert-heic-converted-to-gray.jpg", data: gray)
 		}
+	}
+
+	func testPlatformLoad() throws {
+		let url = try resourceURL(forResource: "rainbow", withExtension: "png")
+		let _ = try PlatformImage.load(fileURL: url)
+
+		let data = try Data(contentsOf: url)
+		let _ = try PlatformImage.load(data: data)
 	}
 }
