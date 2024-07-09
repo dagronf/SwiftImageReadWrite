@@ -53,7 +53,7 @@ public extension CIImage {
 		return updateImage
 	}
 
-	/// Create a UIImage representation of this image
+	/// Create an NSImage representation of this image
 	@inlinable func asPlatformImage() -> PlatformImage? { self.asNSImage() }
 }
 
