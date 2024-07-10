@@ -103,12 +103,11 @@ let nsImage = cgImage.nsImage(scale: 2)
 
 // Generate an UIImage
 let nsImage = cgImage.uiImage()
-
 ```
 
 ### NSImage/UIImage
 
-Generating an `NSImage` or `UIImage` representation for a `CGImage`
+#### Generating an `NSImage` or `UIImage` representation for a `CGImage`
 
 ```swift
 // Load a CGImage from raw data
@@ -122,6 +121,16 @@ let uiImage = cgImage.uiImage(scale: 3)
 
 // Generate a PDF representation of the pdf
 let pdf = try cgImage.representation.pdf()
+```
+
+#### Common routines for loading an `NSImage` or `UIImage`
+
+```swift
+// This loads an `NSImage` or `UIImage` depending on the current platform 
+let platformImage = PlatformImage.load(data: data)
+
+// This loads an `NSImage` or `UIImage` depending on the current platform
+let platformImage = PlatformImage.load(fileURL: <some url>)
 ```
 
 ### SwiftUI
