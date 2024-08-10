@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name                       = 'SwiftImageReadWrite'
-s.version                    = '1.8.0'
+s.version                    = '1.9.0'
 s.summary                    = 'A basic microframework of routines for doing basic importing/exporting of `CGImage` and `NSImage`/`UIImage` type images.'
 s.homepage                   = 'https://github.com/dagronf/SwiftImageReadWrite'
 s.license                    = { :type => 'MIT', :file => 'LICENSE' }
@@ -21,7 +21,9 @@ s.tvos.framework             = 'UIKit'
 s.watchos.framework          = 'UIKit'
 
 s.source_files               = 'Sources/SwiftImageReadWrite/**/*.swift'
-s.resources                  = [ "Sources/SwiftImageReadWrite/PrivacyInfo.xcprivacy" ]
+s.resource_bundles           = {
+   'DSF_QRCode' => 'Sources/SwiftImageReadWrite/PrivacyInfo.xcprivacy'
+}
 
 s.swift_versions             = ['5.4', '5.5', '5.6', '5.7', '5.8', '5.9', '5.10']
 
