@@ -23,11 +23,6 @@ import Foundation
 import CoreGraphics
 
 public extension CGImage {
-	/// Load a CGImage from an image asset
-	static func named(_ name: String) -> CGImage? {
-		PlatformImage(named: name)?.cgImage
-	}
-
 	/// The size of the CGImage
 	@inlinable @inline(__always) var size: CGSize {
 		CGSize(width: self.width, height: self.height)
