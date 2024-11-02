@@ -27,7 +27,7 @@ public extension CGImage {
 	/// Return the image data in the required format
 	/// - Parameters:
 	///   - type: The format type to export (with options)
-	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination)
 	/// - Returns: The formatted data, or nil on error
 	func imageData(for type: ImageExportType, otherOptions: [String: Any]? = nil) throws -> Data {
 		switch type {
@@ -210,7 +210,7 @@ public extension CGImage {
 		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
-		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination)
 		/// - Returns: image data
 		public func rawImageData(
 			uniformTypeIdentifier: String,
@@ -255,7 +255,7 @@ extension CGImage {
 	///   - dpi: The image's dpi
 	///   - compression: The compression level to apply (0...1)
 	///   - excludeGPSData: If true, strips any GPS information from the output
-	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+	///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination)
 	/// - Returns: image data
 	func dataRepresentation(
 		uniformTypeIdentifier: CFString,

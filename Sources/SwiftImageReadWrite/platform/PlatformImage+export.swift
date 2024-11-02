@@ -158,7 +158,7 @@ public extension PlatformImage {
 		///   - scale: The image's scale value (for retina-type images eg. @2x == 2)
 		///   - compression: The compression level to apply (clamped to 0 ... 1)
 		///   - excludeGPSData: Strip any gps data
-		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination/destination_properties)
+		///   - otherOptions: Other options as defined in [documentation](https://developer.apple.com/documentation/imageio/cgimagedestination)
 		/// - Returns: image data
 		@inlinable public func rawImageData(
 			uniformTypeIdentifier: String,
