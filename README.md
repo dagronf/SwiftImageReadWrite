@@ -78,7 +78,7 @@ let image = CGImage/UIImage/NSImage
 let pngData = try image.representation.png(scale: 2)
 
 // Generate a JPG representation at 3x
-let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
+let jpegData = try image.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true)
 
 // Generate a PDF representation
 let pdfData = try image.representation.pdf(size: CGSize(width: 300, height: 300))
