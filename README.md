@@ -93,7 +93,7 @@ let pdfData = try image.representation.pdf(size: CGSize(width: 300, height: 300)
 let cgImage = try CGImage.load(data: data)
 
 // Export the image as JPG data
-let jpegData = try cgImage.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true))
+let jpegData = try cgImage.representation.jpeg(scale: 3, compression: 0.65, excludeGPSData: true)
 
 // Export the image as PNG data
 let pngData = try cgImage.representation.png(scale: 2)
